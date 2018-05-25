@@ -18,18 +18,18 @@ We'll touch these subjects
 
 ## Prerequisites
 To be able to participate you'll need the following
-* A laptop.
+* A buddy.
+    * We're going to work in pairs on this workshop because it's fun and efficient.
+    * We can form pairs during the workshop of course if you're not sure who you'd like to work with
+* A laptop (one per pair of developers)
     * All OS'ses are welcome and equal(ish)ly suitable
     * make sure you've got a decent terminal solution if you're on windows
-* An android device
+* An android device and a USB cable (one that supports data transfer, not one of those charge-only-quality ones ;-) )
     * to run the app on
     * if you don't have an android device, use a tfe test device
     * make sure developer tools on the device are active
         * https://developer.android.com/studio/debug/dev-options
     * We'll focus on local and android developing. iOS is fun too but a bit trickier to setup so it's out of scope for this workshop
-* A buddy.
-    * We're going to work in pairs on this workshop because it's fun and efficient.
-    * We can form pairs during the workshop of course if you're not sure who you'd like to work with
 * these software packages
     * Your favorite IDE
         * e.g. idea, visual studio code, brackets, sublime, etc.
