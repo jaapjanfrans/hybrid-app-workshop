@@ -64,7 +64,8 @@ If you can run these commands without issue, you're good to go. If something doe
     * ionic pro is not needed, answer no to that one as well
 * `cd myApp`
 * `ionic serve`
-if you can run these steps you can develop locally and view the app in your browser. To be able to build to an android device use these command to test your setup:
+<br/> if you can run above steps you can develop locally and view the app in your browser. 
+<br/> To be able to build to an android device use these command to test your setup:
 * `ionic cordova platform add android`
 * `ionic cordova run android`
 
