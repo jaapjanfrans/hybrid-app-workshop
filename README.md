@@ -56,5 +56,17 @@ To be able to participate you'll need the following
         * to build an android app locally
         * all in one solution: install android studio: https://developer.android.com/studio/
         * less bloated option: install a java JDK , install android sdk tools and use it's sdk manager to download latest android platform
-        * see instructions here: https://ionicframework.com/docs/intro/deploying/
+        
+## Verifying your dev environment
+If you can run these commands without issue, you're good to go. If something doesn't work out, pay me a visit and we'll sort it out :-)
+* `ionic start myApp blank`
+    * answer no to adding platforms at this stage
+    * ionic pro is not needed, answer no to that one as well
+* `cd myApp`
+* `ionic serve`
+if you can run these steps you can develop locally and view the app in your browser. To be able to build to an android device use these command to test your setup:
+* `ionic cordova platform add android`
+* `ionic cordova run android`
+
+
 
