@@ -31,6 +31,8 @@ To be able to participate you'll need the following
     * We're going to work in pairs on this workshop because it's fun and efficient.
     * We can form pairs during the workshop of course if you're not sure who you'd like to work with
 * these software packages
+    * Your favorite IDE
+        * e.g. idea, visual studio code, brackets, sublime, etc.
     * Google Chrome
         * we'll use it's dev tools to debug in the browser
     * Git
@@ -50,8 +52,9 @@ To be able to participate you'll need the following
     * Phonegap build CLI
         * to create our builds using commandline instead of the pg build website
         * https://github.com/phonegap-build/pgb-cli/
-    * (optional) Java sdk plus android SDK
-        * if you'd like to try out building the app locally on your laptop instead of in the cloud
-        * and if you'd like to test out remote debugging on a device
+    * Java SDK and android SDK
+        * to build an android app locally
+        * all in one solution: install android studio: https://developer.android.com/studio/
+        * less bloated option: install a java JDK , install android sdk tools and use it's sdk manager to download latest android platform
         * see instructions here: https://ionicframework.com/docs/intro/deploying/
 
