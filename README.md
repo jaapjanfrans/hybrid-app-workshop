@@ -26,6 +26,7 @@ To be able to participate you'll need the following
     * if you don't have an android device, use a tfe test device
     * make sure developer tools on the device are active
         * https://developer.android.com/studio/debug/dev-options
+    * We'll focus on local and android developing. iOS is fun too but a bit trickier to setup so it's out of scope for this workshop
 * A buddy.
     * We're going to work in pairs on this workshop because it's fun and efficient.
     * We can form pairs during the workshop of course if you're not sure who you'd like to work with
