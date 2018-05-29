@@ -9,6 +9,7 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {ProfilePage} from "../pages/profile/profile";
+import {ComponentsModule} from "../components/components.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {ProfilePage} from "../pages/profile/profile";
   ],
   imports: [
     BrowserModule,
+      ComponentsModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
