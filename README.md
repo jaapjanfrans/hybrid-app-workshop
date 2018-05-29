@@ -16,6 +16,6 @@ Connect your device, make sure it trusts your computer. then run `ionic cordova 
 run the app on the device with livereload enabled. Livereload not only has the advantage of instant reload of code
 but also provides you with sourcemap files so you can debug the `.ts` files instead of a combined `.js` file.
 ### 1.5 Adding an icon and a splashscreen
-The `resources` folder contains an icon and a splashscreen template. Use the cli command `ionic resources` to 
+The `resources` folder contains an icon and a splashscreen template. Use the cli command `ionic cordova resources` to 
 generate all resource formats needed. when you re-run the app on the device you should now see an icon and splashscreen
 on startup.
