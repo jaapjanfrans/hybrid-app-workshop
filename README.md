@@ -1,19 +1,21 @@
 # Workshop Hybrid App Development
-## 1. Scaffolding our app
-### Goals
-* Creating the base of our app
-* Running the app in chrome
-* adding a cordova platform
-* running  the app on a device
-* adding icon and splashscreen resources
+## 1. Scaffolding our app - solutions
 
 ### 1.1 Creating  the base of our app
-Open up a termina / cmd screen and go to a nice location on your machine. Use the ionic cli to create a new application and name it ‘InstaClone’. Say no to any questions asked during creation of your new app.
+The cli has a command `ionic start` that guids you through scaffolding of a new app
 ### 1.2 Running the app in chrome
-Use the ionic CLI to run your app in a local webserver and view it in chrome. Explore the contents of the running app using the dev tools. Try to set a breakpoint via the dev tools in the typescript code and see if debugging works (a good place in the rather empty demoapp is list.ts found in src > pages > list
+to start the app locally on your machine you can use `ionic serve`. After starting
+the local webserver using that command you can point your chrome browser to `http://localhost:8100`
+In chrome you can open the web developer tools, on the sources tab you can browse all source files. 
+Add a breakpoint in a `.ts` file, like `list.ts`, and reload the page to see if you can debug the code.
 ### 1.3 Adding a platform
-Add the cordova android platform using the ionic cli. It should results in a new folder platforms in the root dir of your app, containing an android folder
+The cli has a cordova command that accepts all cordova subcommands. To add android use
+`ionic cordova platform add android`.
 ### 1.4 Running the app on a device
-Use the cli to run your app on a connected android device via usb. Use remote debug in chrome to connect to the running app on the device and notice how you can use this to debug the app on a real device. Use livereload to be able to see live code changes on your device.
+Connect your device, make sure it trusts your computer. then run `ionic cordova run android --livereload` to
+run the app on the device with livereload enabled. Livereload not only has the advantage of instant reload of code
+but also provides you with sourcemap files so you can debug the `.ts` files instead of a combined `.js` file.
 ### 1.5 Adding an icon and a splashscreen
-What is an app without an icon an splashscreen? So go ahead and fetch 
+The `resources` folder contains an icon and a splashscreen template. Use the cli command `ionic resources` to 
+generate all resource formats needed. when you re-run the app on the device you should now see an icon and splashscreen
+on startup.
