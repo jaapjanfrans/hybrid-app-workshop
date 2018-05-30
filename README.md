@@ -1,8 +1,8 @@
 # Workshop Hybrid App Development
-## 2. A profile page
+## 2. A profile page - solutions
 
 ### 2.1 Adding a page
-Create a page using `ionic generate` and choose page. Name it `ProfilePage`.
+You can create a page using `ionic generate` and choosing page. Name it `ProfilePage`.
 See the dir `src/pages/profile` for the resulting html, scss and ts file.
 
 ### 2.2 Adding a profile picture 
