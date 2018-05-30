@@ -15,6 +15,9 @@ import { Camera } from '@ionic-native/camera';
 import { CameraService } from '../providers/camera-service/camera-service';
 import {IonicStorageModule} from "@ionic/storage";
 
+import { AngularFireModule } from 'angularfire2';
+import {environment} from 'firebase-config';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -26,7 +29,9 @@ import {IonicStorageModule} from "@ionic/storage";
     BrowserModule,
       ComponentsModule,
       IonicStorageModule.forRoot(),
-    IonicModule.forRoot(MyApp),
+      AngularFireModule.initializeApp(environment.firebase),
+
+      IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
