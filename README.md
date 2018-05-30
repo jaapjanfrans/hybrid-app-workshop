@@ -37,9 +37,7 @@ So now we've got a button calling the `takeProfilePicture` method on click, whic
 (there is a cordova browser platform that you could use to be able to run cordova on your machine and utilize your webcam with it, but i'd rather test the app on a device). 
 
 ### 3.4 Displaying the picture on the profile page
-So now when you click the button, you can take a picture. but after that, we don't handle the response yet. Let's do two things with it:
-* display the photo in the profilepicture component
-* save the file reference for future use
+So now when you click the button, you can take a picture. but after that, we don't handle the response yet. 
 
 To display the picture, we'll need to get the response from our cameraservice and do something with it. so in the `takeProfilePicture` method, save the response coming from the `CameraService` and save it to a member variable of the `ProfilePage` class. for example `profilePictureLocation: Promise<string>;`.
 
