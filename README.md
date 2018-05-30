@@ -4,6 +4,8 @@
 
 * installing a cordova plugin
 * Creating a provider (=service) 
+* using the camera and storage services to take a picture and save it
+* displaying our picture on the profilepage
 
 
 ### 3.1 Installing the cordova camera plugin & ionic native camera plugin
