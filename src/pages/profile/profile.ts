@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import {CameraService} from "../../providers/camera-service/camera-service";
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -15,7 +16,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  profilePictureLocation: Promise<string>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public cameraService: CameraService, public storage: Storage) {
+  }
+
+  public takePicture() {
+      this.profilePictureLocation = this.cameraService.takePicture()
+        .then((imageLocation: string) => {
+          this.storage.set('profilePicture', imageLocation);
+          return imageLocation;
+        });
   }
 
   ionViewDidLoad() {

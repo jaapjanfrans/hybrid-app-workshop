@@ -12,6 +12,8 @@ import {ProfilePage} from "../pages/profile/profile";
 import {ComponentsModule} from "../components/components.module";
 
 import { Camera } from '@ionic-native/camera';
+import { CameraService } from '../providers/camera-service/camera-service';
+import {IonicStorageModule} from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { Camera } from '@ionic-native/camera';
   imports: [
     BrowserModule,
       ComponentsModule,
+      IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -36,7 +39,8 @@ import { Camera } from '@ionic-native/camera';
       Camera,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    CameraService
   ]
 })
 export class AppModule {}
