@@ -1,11 +1,15 @@
 # Workshop Hybrid App Development
-## 3. Using the camera plugin
+## 4. Authentication using a MBAAS (firebase)
 ### Goals
 
-* installing a cordova plugin
-* Creating a provider (=service) 
+* installing Angularfire in our app
+* connecting to our backend
+* Hooking up authentication
+
+### 4.1 Installing Angularfire
+AngularFire is an angular implementation of the Firebase API. Very useful for us since our app is angular and we
+want to utilize firebase services.
 
 
-### 3.1 Installing the cordova camera plugin
-Via the cli, install the cordova camera plugin. After installing, check if the camera
-### 2.2 Adding a profile picture 
+Look up angularfire on github and install it.
+
