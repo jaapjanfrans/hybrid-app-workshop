@@ -19,3 +19,6 @@ Create a component called `ProfilePicture`. Wire the new `ComponentsModule` in `
 Add an member variable `image` to the `ProfilePicture` class and decorate it with `@Input()`. This will enable us to pass an image string to the component.
 
 Now add a `<profile-picture>` tag to the profile page and give it a `[image]` attribute that points to `../../assets/imgs/logo.png`. N.B. You need to escape the string literal with single quotes otherwise angular will expect to be able to use a variable here with the name `../../assets/imgs/logo.png`.
+
+
+Also add a line below the profile picture with your name (a static string for now). You can use `<ion-row>` and `<ion-col>` tags to put the profile picture and the name in a grid (ionic uses flexbox). also try and figure out how to center the elements on this page.
