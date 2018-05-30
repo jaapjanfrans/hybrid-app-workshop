@@ -19,6 +19,18 @@ After that, install the ionic native camera plugin. Also add it to `app.module.t
 use the cli to create a provider called `CameraService`. Inject the camera service from ionic native in it's constructor.
 Add a `takePicture` method to the new service. The method should use the camera service from ionic to take a picture. Notice that the ionic service will return you a Promise object because taking a picture is handled as an async operation. We'll return that promise from our own `takePicture` method as well.
 
+Add some default camera options that we'll use if no specific options are passed to the service. Add this const in the `camera-service.ts` file:
+```javascript
+const defaultOptions: CameraOptions = {
+  correctOrientation: true,
+  targetWidth: 1280,
+  targetHeight: 720
+};
+```
+And add these defaults to the `takePicture` method as the default by adding this argument to it:
+`options: CameraOptions = defaultOptions`
+
+
 ### 3.3 Add a change profile picture button to the profile page
 in `profile.ts`, add a method `takeProfilePicture`. Inject our new `CameraService` into the constructor of this page. open up `profile.html` and add an ionic button that will call the `takeProfilePicture` method of `profile.ts` (using a click handler).
 So now we've got a button calling the `takeProfilePicture` method on click, which in turn calls the `takePicture` method of our `CameraService`. Clicking the button  should open up the camera view of your device. Notice this will only work on your device as the cordova layer is not available when running the app on your machine via `ionic serve`.
