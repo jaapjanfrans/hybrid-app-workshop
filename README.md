@@ -28,7 +28,7 @@ const defaultOptions: CameraOptions = {
 };
 ```
 And add these defaults to the `takePicture` method as the default by adding this argument to it:
-`options: CameraOptions = defaultOptions`
+`options: CameraOptions = defaultOptions`. These defaults will ensure our images are rotated correctly and are not too large (we're going to upload them later on to a backend on a free plan with limited storage :-) )
 
 
 ### 3.3 Add a change profile picture button to the profile page
