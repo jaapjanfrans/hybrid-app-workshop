@@ -11,6 +11,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {ProfilePage} from "../pages/profile/profile";
 import {ComponentsModule} from "../components/components.module";
 
+import { Camera } from '@ionic-native/camera';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -31,6 +33,7 @@ import {ComponentsModule} from "../components/components.module";
     ProfilePage
   ],
   providers: [
+      Camera,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
