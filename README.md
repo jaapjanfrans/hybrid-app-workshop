@@ -11,5 +11,5 @@ AngularFire is an angular implementation of the Firebase API. Very useful for us
 want to utilize firebase services.
 
 
-Look up angularfire on github and install it.
+Look up angularfire on github and install it (search for the line containing the `npm` install line, which will install both firebase and angularfire packages).
 
