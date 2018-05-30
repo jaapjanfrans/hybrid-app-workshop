@@ -16,7 +16,8 @@ import { CameraService } from '../providers/camera-service/camera-service';
 import {IonicStorageModule} from "@ionic/storage";
 
 import { AngularFireModule } from 'angularfire2';
-import {environment} from 'firebase-config';
+import {AngularFireAuthModule} from "angularfire2/auth";
+import {environment} from './firebase-config';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import {environment} from 'firebase-config';
       ComponentsModule,
       IonicStorageModule.forRoot(),
       AngularFireModule.initializeApp(environment.firebase),
-
+      AngularFireAuthModule,
       IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
