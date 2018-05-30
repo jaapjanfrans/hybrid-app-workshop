@@ -1,16 +1,11 @@
 # Workshop Hybrid App Development
-## 2. A profile page
+## 3. Using the camera plugin
 ### Goals
-* Creating a pages and components
-* Tinkering with html/css/js
 
-### 2.1 Adding a page
-Use the cli to add a page called `ProfilePage`. Hook up the page to the sidemenu of the app.
-Delete the sidemenu entries for the home and list pages. 
+* installing a cordova plugin
+* Creating a provider (=service) 
 
-Set the profile page as the
-default entry page of the app.
 
-Run the app in the browser. notice the profilepage has no menuicon. Add it. Als change the title in the header to `My Profile'
-
+### 3.1 Installing the cordova camera plugin
+Via the cli, install the cordova camera plugin. After installing, check if the camera
 ### 2.2 Adding a profile picture 
