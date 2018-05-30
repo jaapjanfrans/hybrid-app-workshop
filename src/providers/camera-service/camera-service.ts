@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Camera} from "@ionic-native/camera";
+import {Camera, CameraOptions} from "@ionic-native/camera";
 
 /*
   Generated class for the CameraServiceProvider provider.
@@ -7,6 +7,13 @@ import {Camera} from "@ionic-native/camera";
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
+const defaultOptions: CameraOptions = {
+  correctOrientation: true,
+  targetWidth: 1280,
+  targetHeight: 720
+};
+
 @Injectable()
 export class CameraService {
 
@@ -19,7 +26,7 @@ export class CameraService {
      *
      * @returns {string} location of the file on the device
      */
-  public takePicture(): Promise<string> {
-    return this.camera.getPicture();
+  public takePicture(options: CameraOptions = defaultOptions): Promise<string> {
+    return this.camera.getPicture(options);
   }
 }

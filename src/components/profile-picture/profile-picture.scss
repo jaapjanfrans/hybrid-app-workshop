@@ -7,5 +7,9 @@ profile-picture {
 
   img {
     border-radius: 50%;
+    max-width:300px;
+    max-height:300px;
+    height: auto;
+    width:100%;
   }
 }

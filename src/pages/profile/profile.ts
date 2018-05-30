@@ -21,7 +21,7 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public cameraService: CameraService, public storage: Storage) {
   }
 
-  public takePicture() {
+  public takeProfilePicture() {
       this.profilePictureLocation = this.cameraService.takePicture()
         .then((imageLocation: string) => {
           this.storage.set('profilePicture', imageLocation);
@@ -31,6 +31,7 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+    this.profilePictureLocation = this.storage.get('profilePicture');
   }
 
 }
