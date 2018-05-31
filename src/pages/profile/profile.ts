@@ -1,10 +1,16 @@
+///<reference path="../../../node_modules/rxjs-compat/add/operator/map.d.ts"/>
 import {Component, Input} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service/camera-service";
 import { Storage } from '@ionic/storage';
 import {AngularFireAuth} from "angularfire2/auth";
-import {auth, User} from "firebase";
-import {LoginPage} from "../login/login";
+import { User} from "firebase";
+import {ProfileService} from "../../providers/profile-service/profile-service";
+
+import "rxjs-compat/add/operator/map";
+import "rxjs-compat/add/operator/take";
+import {Observable} from "rxjs";
+import "rxjs-compat/add/operator/mergeMap";
 /**
  * Generated class for the ProfilePage page.
  *
@@ -19,15 +25,23 @@ import {LoginPage} from "../login/login";
 })
 export class ProfilePage {
 
+  userUid$: Observable<string>;
   profilePictureLocation: Promise<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public cameraService: CameraService, public storage: Storage,
-              public afAuth: AngularFireAuth) {
+  constructor(public cameraService: CameraService, public storage: Storage,
+              public afAuth: AngularFireAuth, public profileService: ProfileService) {
+      this.userUid$ = afAuth.user
+          .map((user: User) => user.uid);
   }
 
   public takeProfilePicture() {
       this.profilePictureLocation = this.cameraService.takePicture()
         .then((imageLocation: string) => {
+            this.userUid$
+                .take(1)
+                .flatMap((uid: string) => this.profileService.uploadProfilePicture('profilepicture-1', uid, imageLocation))
+                .subscribe();
+
           this.storage.set('profilePicture', imageLocation);
           return imageLocation;
         });

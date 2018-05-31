@@ -9,6 +9,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {ProfilePage} from "../pages/profile/profile";
 
 import { Camera } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
 import { CameraService } from '../providers/camera-service/camera-service';
 import {IonicStorageModule} from "@ionic/storage";
 
@@ -19,6 +20,9 @@ import {GooglePlus} from "@ionic-native/google-plus";
 import {LoginPage} from "../pages/login/login";
 import {LoginPageModule} from "../pages/login/login.module";
 import {ProfilePageModule} from "../pages/profile/profile.module";
+import { ProfileService } from '../providers/profile-service/profile-service';
+import {AngularFireStorageModule} from "angularfire2/storage";
+import {AngularFirestoreModule} from "angularfire2/firestore";
 
 @NgModule({
   declarations: [
@@ -31,6 +35,8 @@ import {ProfilePageModule} from "../pages/profile/profile.module";
       IonicStorageModule.forRoot(),
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireAuthModule,
+      AngularFireStorageModule,
+      AngularFirestoreModule,
       IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
@@ -42,10 +48,12 @@ import {ProfilePageModule} from "../pages/profile/profile.module";
   providers: [
     GooglePlus,
     Camera,
+    File,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CameraService
+    CameraService,
+    ProfileService
   ]
 })
 export class AppModule {}
