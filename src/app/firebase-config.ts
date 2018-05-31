@@ -6,6 +6,7 @@ export const environment = {
         databaseURL: "https://instaclone-1337.firebaseio.com",
         projectId: "instaclone-1337",
         storageBucket: "",
-        messagingSenderId: "xxxxxxxxxxxxxxx"
+        messagingSenderId: "xxxxxxxxx",
+        webClientId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     }
 };
