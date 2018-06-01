@@ -88,4 +88,5 @@
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.248822036361-o4vusbpt95ea5iimhincg9url9mb0v0v" />
     </plugin>
     <allow-navigation href="http://192.168.3.148:8100" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
 </widget>
