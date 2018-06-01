@@ -23,6 +23,7 @@ import {ProfilePageModule} from "../pages/profile/profile.module";
 import { ProfileService } from '../providers/profile-service/profile-service';
 import {AngularFireStorageModule} from "angularfire2/storage";
 import {AngularFirestoreModule} from "angularfire2/firestore";
+import { StorageService } from '../providers/storage-service/storage-service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {AngularFirestoreModule} from "angularfire2/firestore";
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
-    ProfileService
+    ProfileService,
+    StorageService
   ]
 })
 export class AppModule {}

@@ -1,6 +1,5 @@
-///<reference path="../../../node_modules/rxjs-compat/add/operator/map.d.ts"/>
-import {Component, Input} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import { IonicPage} from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service/camera-service";
 import { Storage } from '@ionic/storage';
 import {AngularFireAuth} from "angularfire2/auth";
