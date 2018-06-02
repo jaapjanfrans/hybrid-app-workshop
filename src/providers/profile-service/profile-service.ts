@@ -6,24 +6,35 @@ import "rxjs-compat/add/observable/bindCallback";
 import "rxjs-compat/add/operator/first";
 import "rxjs-compat/add/operator/mergeMap";
 import "rxjs-compat/add/observable/fromEvent";
-import {StorageService} from "../storage-service/storage-service";
+import {FileService} from "../file-service/file.service";
 
 @Injectable()
 export class ProfileService {
 
-  constructor(public storageService: StorageService) {}
+  constructor(public fileService: FileService) {}
 
     /**
      * Uploads a profile picture
      *
-     * @param {string} name name of the profile picture
      * @param {string} userUid users uid
      * @param {string} localFileLocation location of the local file (full path)
      * @returns {Observable<AngularFireUploadTask>} an uploadtask that can be used to monitor the uploading of the image
      */
-  public uploadProfilePicture(name: string, userUid: string, localFileLocation: string): Observable<AngularFireUploadTask> {
-      let pictureStoragePath: string = `profileimage/${userUid}`;
+  public setProfilePicture(userUid: string, localFileLocation: string): Observable<AngularFireUploadTask> {
+      let storageReference: string = `profileimage/${userUid}/profile-1`;
 
-      return this.storageService.uploadFile(name, localFileLocation, pictureStoragePath);
+      return this.fileService.set(storageReference, localFileLocation);
+  }
+
+    /**
+     * Gets the profile picture with the given name for given userUid
+     *
+     * @param {string} userUid user id
+     * @returns {Observable<string>} the local file paths
+     */
+  public getProfilePicture(userUid: string): Observable<string> {
+      let storageReference: string = `profileimage/${userUid}/profile-1`;
+
+      return this.fileService.get(storageReference);
   }
 }

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import {HttpClientModule} from "@angular/common/http";
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
@@ -23,7 +24,7 @@ import {ProfilePageModule} from "../pages/profile/profile.module";
 import { ProfileService } from '../providers/profile-service/profile-service';
 import {AngularFireStorageModule} from "angularfire2/storage";
 import {AngularFirestoreModule} from "angularfire2/firestore";
-import { StorageService } from '../providers/storage-service/storage-service';
+import {FileService} from "../providers/file-service/file.service";
 
 @NgModule({
   declarations: [
@@ -32,13 +33,14 @@ import { StorageService } from '../providers/storage-service/storage-service';
   imports: [
       LoginPageModule,
       ProfilePageModule,
-    BrowserModule,
+      BrowserModule,
       IonicStorageModule.forRoot(),
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireAuthModule,
       AngularFireStorageModule,
       AngularFirestoreModule,
       IonicModule.forRoot(MyApp),
+      HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +57,7 @@ import { StorageService } from '../providers/storage-service/storage-service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
     ProfileService,
-    StorageService
+    FileService
   ]
 })
 export class AppModule {}

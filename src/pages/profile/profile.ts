@@ -10,6 +10,8 @@ import "rxjs-compat/add/operator/map";
 import "rxjs-compat/add/operator/take";
 import {Observable} from "rxjs";
 import "rxjs-compat/add/operator/mergeMap";
+import { combineLatest } from 'rxjs'
+
 /**
  * Generated class for the ProfilePage page.
  *
@@ -25,7 +27,7 @@ import "rxjs-compat/add/operator/mergeMap";
 export class ProfilePage {
 
   userUid$: Observable<string>;
-  profilePictureLocation: Promise<string>;
+  profilePictureLocation$: Observable<string>;
 
   constructor(public cameraService: CameraService, public storage: Storage,
               public afAuth: AngularFireAuth, public profileService: ProfileService) {
@@ -34,21 +36,22 @@ export class ProfilePage {
   }
 
   public takeProfilePicture() {
-      this.profilePictureLocation = this.cameraService.takePicture()
-        .then((imageLocation: string) => {
-            this.userUid$
-                .take(1)
-                .flatMap((uid: string) => this.profileService.uploadProfilePicture('profilepicture-1', uid, imageLocation))
-                .subscribe();
+      this.profilePictureLocation$ = combineLatest(this.userUid$, this.cameraService.takePicture())
+      .map((results: any[]) => {
+        let uid = results[0];
+        let fileLocation = results[1];
 
-          this.storage.set('profilePicture', imageLocation);
-          return imageLocation;
-        });
+        this.profileService.setProfilePicture(uid, fileLocation).subscribe();
+
+        return fileLocation;
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
-    this.profilePictureLocation = this.storage.get('profilePicture');
+      this.profilePictureLocation$  = this.afAuth.user
+          .map((user: User) => user.uid)
+          .flatMap((uid => this.profileService.getProfilePicture(uid)));
   }
 
   ionViewCanEnter(): Promise<boolean> {
