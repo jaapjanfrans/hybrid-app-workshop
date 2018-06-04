@@ -55,7 +55,7 @@ export class ProfilePage {
     }
 
 
-  ionViewDidLoad() {
+    ionViewDidEnter() {
       this.profilePictureLocation$  = this.userUid$
           .flatMap((uid => this.profileService.getProfilePicture(uid)));
   }

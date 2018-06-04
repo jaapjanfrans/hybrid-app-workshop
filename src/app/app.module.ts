@@ -24,7 +24,6 @@ import {AngularFireStorageModule} from "angularfire2/storage";
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {FileService} from "../providers/file-service/file.service";
 import {PhotostreamPageModule} from "../pages/photostream/photostream.module";
-import {PaginationService} from "../providers/pagination-service/pagination-service";
 import {PhotostreamService} from "../providers/photostream-service/photostream-service";
 
 @NgModule({
@@ -59,7 +58,6 @@ import {PhotostreamService} from "../providers/photostream-service/photostream-s
     ProfileService,
     FileService,
     CameraService,
-    PaginationService,
     PhotostreamService,
     ProfileService
   ]

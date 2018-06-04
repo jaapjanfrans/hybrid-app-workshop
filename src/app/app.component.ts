@@ -8,6 +8,7 @@ import {LoginPage} from "../pages/login/login";
 import {AngularFireAuth} from "angularfire2/auth";
 import {User} from "firebase";
 import {Observable} from "rxjs/Observable";
+import {PhotostreamPage} from "../pages/photostream/photostream";
 
 @Component({
   templateUrl: 'app.html'
@@ -15,7 +16,7 @@ import {Observable} from "rxjs/Observable";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: ProfilePage;
+  rootPage: PhotostreamPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -28,6 +29,7 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'Photostream', component: PhotostreamPage },
       { title: 'My Profile', component: ProfilePage }
     ];
 

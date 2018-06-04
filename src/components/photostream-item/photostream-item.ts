@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {PhotostreamImage} from "../../models/photostream-image";
 
 /**
  * Generated class for the PhotostreamItemComponent component.
@@ -13,10 +14,7 @@ import {Component, Input} from '@angular/core';
 export class PhotostreamItemComponent {
 
   @Input()
-  author: string;
-
-  @Input()
-  imageLocation: string;
+  image: PhotostreamImage;
 
   constructor() {
     console.log('Hello PhotostreamItemComponent Component');
