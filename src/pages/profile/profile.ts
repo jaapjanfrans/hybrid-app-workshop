@@ -1,10 +1,17 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service/camera-service";
 import { Storage } from '@ionic/storage';
 import {AngularFireAuth} from "angularfire2/auth";
-import {auth, User} from "firebase";
-import {LoginPage} from "../login/login";
+import { User} from "firebase";
+
+import "rxjs-compat/add/operator/map";
+import "rxjs-compat/add/operator/take";
+import {Observable} from "rxjs";
+import "rxjs-compat/add/operator/mergeMap";
+import { combineLatest } from 'rxjs'
+import {ProfileService} from "../../providers/profile-service/profile-service";
+
 /**
  * Generated class for the ProfilePage page.
  *
@@ -19,26 +26,35 @@ import {LoginPage} from "../login/login";
 })
 export class ProfilePage {
 
-  profilePictureLocation: Promise<string>;
+    userUid$: Observable<string>;
+    profilePictureLocation$: Promise<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public cameraService: CameraService, public storage: Storage,
-              public afAuth: AngularFireAuth) {
-  }
+    constructor(public cameraService: CameraService, public storage: Storage,
+                    public afAuth: AngularFireAuth, public profileService: ProfileService) {
+        this.userUid$ = afAuth.user
+            .filter(user => user != null)
+            .map((user: User) => user.uid);
+    }
 
-  public takeProfilePicture() {
-      this.profilePictureLocation = this.cameraService.takePicture()
-        .then((imageLocation: string) => {
-          this.storage.set('profilePicture', imageLocation);
-          return imageLocation;
-        });
-  }
+    public takeProfilePicture() {
+        let picture$ = this.cameraService.takePicture();
+        this.profilePictureLocation$ = picture$;
+
+        combineLatest(this.userUid$, picture$)
+            .flatMap((results: any[]) => {
+                //results contains the results of the observables combined above
+                // use them to set to profile picture using the profile service.
+
+            })
+            .subscribe();
+    }
+
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-    this.profilePictureLocation = this.storage.get('profilePicture');
+        // get the picture from profileservice
   }
 
-  ionViewCanEnter(): Promise<boolean> {
+    ionViewCanEnter(): Promise<boolean> {
       return this.afAuth.user
           .map((user: User) => user != null)
           .take(1)
