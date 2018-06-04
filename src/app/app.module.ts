@@ -7,7 +7,6 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {ProfilePage} from "../pages/profile/profile";
 
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
@@ -18,13 +17,15 @@ import { AngularFireModule } from 'angularfire2';
 import {AngularFireAuthModule} from "angularfire2/auth";
 import {environment} from './firebase-config';
 import {GooglePlus} from "@ionic-native/google-plus";
-import {LoginPage} from "../pages/login/login";
 import {LoginPageModule} from "../pages/login/login.module";
 import {ProfilePageModule} from "../pages/profile/profile.module";
 import { ProfileService } from '../providers/profile-service/profile-service';
 import {AngularFireStorageModule} from "angularfire2/storage";
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {FileService} from "../providers/file-service/file.service";
+import {PhotostreamPageModule} from "../pages/photostream/photostream.module";
+import {PaginationService} from "../providers/pagination-service/pagination-service";
+import {PhotostreamService} from "../providers/photostream-service/photostream-service";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import {FileService} from "../providers/file-service/file.service";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CameraService,
     ProfileService,
-    FileService
+    FileService,
     CameraService,
     PaginationService,
     PhotostreamService,
