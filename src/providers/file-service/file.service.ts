@@ -13,6 +13,8 @@ import {HttpClient} from "@angular/common/http";
 import "rxjs-compat/add/operator/catch";
 import "rxjs-compat/add/observable/from";
 import "rxjs-compat/add/observable/of";
+import {FileDetails} from "../../models/file-details";
+import "rxjs-compat/add/operator/filter";
 
 @Injectable()
 export class FileService {
@@ -40,8 +42,8 @@ export class FileService {
      * @returns {Observable<string>} the local file path
      */
     public get(storageReference: string): Observable<string> {
-        return Observable.fromPromise(this.storage.get(storageReference))
-            .flatMap((fileLocation: string) => fileLocation ? Observable.of(fileLocation) : this.downloadFile(storageReference))
+        return this.getLocalFileLocation(storageReference)
+            .flatMap((fileLocation: string) => fileLocation ? Observable.of(fileLocation) : this.downloadFile(storageReference));
     }
 
     /**
@@ -88,13 +90,9 @@ export class FileService {
         return fileReference.getDownloadURL()
             .flatMap((downloadUrl: string) => this.http.get(downloadUrl, {responseType: 'blob'}))
             .flatMap((fileBlob: Blob) => {
-                let filenameStartIndex: number = storageReference.lastIndexOf('/') + 1;
-                let filename: string = storageReference.substring(filenameStartIndex, storageReference.length);
-                let path: string = storageReference.substring(0, filenameStartIndex - 1);
-                let directories: string[] = path.split('/');
-
-                return Observable.fromPromise(this.createDirectories(this.file.cacheDirectory, directories.reverse())
-                    .then(() => this.file.writeFile(`${this.file.cacheDirectory}${path}/`, filename, fileBlob, {replace: true}))
+                let fileDetails: FileDetails = this.getFileDetails(storageReference);
+                return Observable.fromPromise(this.createDirectories(this.file.cacheDirectory, fileDetails.directories.reverse())
+                    .then(() => this.file.writeFile(`${this.file.cacheDirectory}${fileDetails.path}`, fileDetails.name, fileBlob, {replace: true}))
                 );
             })
             .map((fileEntry: FileEntry) => {
@@ -102,6 +100,63 @@ export class FileService {
                 return fileEntry.nativeURL;
             });
 
+    }
+
+    /**
+     * Gets a local file location based on a firestore storageReference
+     * @param {string} storageReference the firestore storage reference
+     * @returns {Observable<any>} the localFile location or null if no local file exists
+     */
+    private getLocalFileLocation(storageReference: string) {
+        return Observable.fromPromise(this.storage.get(storageReference))
+            .flatMap(fileLocation => this.localFileExists(fileLocation))
+            .flatMap(fileExists => fileExists ? this.storage.get(storageReference): Observable.of(null));
+    }
+
+    /***
+     * Checks if  a local file exists
+     *
+     * @param {string} fileLocation the location of the file (path and filename)
+     * @returns {Promise<boolean>} true if exists, false if not
+     */
+    private localFileExists(fileLocation: string): Promise<boolean> {
+        if(fileLocation) {
+            let fileDetails = this.getFileDetails(fileLocation);
+
+            //checkFile method rejects instead of returning false if the file is not found :-(
+            // see https://github.com/ionic-team/ionic-native/issues/1711. So we wrap the promise to alwats return a promise with true or false
+            return new Promise<boolean>((resolve, reject) => {
+                this.file.checkFile(fileDetails.path, fileDetails.name)
+                    .then(exists => resolve(exists),
+                    () => resolve(false));
+            });
+        }
+        else {
+            return Promise.resolve(false);
+        }
+    }
+
+
+    /**
+     * Returns details of the full path given
+     *
+     * @param {string} fullPath path including filename
+     * @returns {FileDetails} filedetails
+     */
+    private getFileDetails(fullPath: string): FileDetails {
+        let filenameStartIndex: number = fullPath.lastIndexOf('/') + 1;
+        let filename: string = fullPath.substring(filenameStartIndex, fullPath.length);
+        let path: string = fullPath.substring(0, filenameStartIndex );
+
+        let fileProtocolPrefix = 'file:///';
+        let directoryPath = path.startsWith(fileProtocolPrefix) ? path.substring(fileProtocolPrefix.length, path.length) : path;
+        let directories: string[] = directoryPath.substring(0,path.length - 1).split('/');
+
+        return {
+            name: filename,
+            path: path,
+            directories: directories
+        };
     }
 
     /**

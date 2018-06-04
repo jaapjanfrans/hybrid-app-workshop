@@ -32,6 +32,7 @@ export class ProfilePage {
   constructor(public cameraService: CameraService, public storage: Storage,
               public afAuth: AngularFireAuth, public profileService: ProfileService) {
       this.userUid$ = afAuth.user
+          .filter(user => user != null)
           .map((user: User) => user.uid);
   }
 
@@ -49,8 +50,7 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
-      this.profilePictureLocation$  = this.afAuth.user
-          .map((user: User) => user.uid)
+      this.profilePictureLocation$  = this.userUid$
           .flatMap((uid => this.profileService.getProfilePicture(uid)));
   }
 
