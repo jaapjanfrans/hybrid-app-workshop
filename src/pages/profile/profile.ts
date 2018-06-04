@@ -42,9 +42,7 @@ export class ProfilePage {
 
         combineLatest(this.userUid$, picture$)
             .flatMap((results: any[]) => {
-                //results contains the results of the observables combined above
-                // use them to set to profile picture using the profile service.
-
+                // save the image with the profileservice
             })
             .subscribe();
     }
