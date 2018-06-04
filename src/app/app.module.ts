@@ -33,7 +33,8 @@ import {FileService} from "../providers/file-service/file.service";
   imports: [
       LoginPageModule,
       ProfilePageModule,
-      BrowserModule,
+      PhotostreamPageModule,
+    BrowserModule,
       IonicStorageModule.forRoot(),
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireAuthModule,
@@ -44,9 +45,7 @@ import {FileService} from "../providers/file-service/file.service";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    ProfilePage,
-    LoginPage
+    MyApp
   ],
   providers: [
     GooglePlus,
@@ -58,6 +57,10 @@ import {FileService} from "../providers/file-service/file.service";
     CameraService,
     ProfileService,
     FileService
+    CameraService,
+    PaginationService,
+    PhotostreamService,
+    ProfileService
   ]
 })
 export class AppModule {}
