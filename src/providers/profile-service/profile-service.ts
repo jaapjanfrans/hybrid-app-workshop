@@ -32,9 +32,13 @@ export class ProfileService {
      * @param {string} userUid user id
      * @returns {Observable<string>} the local file paths
      */
-  public getProfilePicture(userUid: string): Observable<string> {
-      let storageReference: string = `profileimage/${userUid}/profile-1`;
+    public getProfilePicture(userUid: string): Observable<string> {
+        let storageReference: string = `profileimage/${userUid}/profile-1`;
 
-      return this.fileService.get(storageReference);
-  }
+        return this.fileService.get(storageReference)
+            .catch(error => {
+                console.log(`Could not retrieve profileimage: ${error}`);
+                return Observable.of(null);
+            });
+    }
 }
