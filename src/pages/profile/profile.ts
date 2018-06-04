@@ -1,16 +1,16 @@
 import {Component} from '@angular/core';
-import { IonicPage} from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {CameraService} from "../../providers/camera-service/camera-service";
 import { Storage } from '@ionic/storage';
 import {AngularFireAuth} from "angularfire2/auth";
 import { User} from "firebase";
-import {ProfileService} from "../../providers/profile-service/profile-service";
 
 import "rxjs-compat/add/operator/map";
 import "rxjs-compat/add/operator/take";
 import {Observable} from "rxjs";
 import "rxjs-compat/add/operator/mergeMap";
 import { combineLatest } from 'rxjs'
+import {ProfileService} from "../../providers/profile-service/profile-service";
 
 /**
  * Generated class for the ProfilePage page.
@@ -21,44 +21,50 @@ import { combineLatest } from 'rxjs'
 
 @IonicPage()
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html',
+    selector: 'page-profile',
+    templateUrl: 'profile.html',
 })
 export class ProfilePage {
 
-  userUid$: Observable<string>;
-  profilePictureLocation$: Observable<string>;
+    userUid$: Observable<string>;
+    profilePictureLocation$: Observable<string>;
 
-  constructor(public cameraService: CameraService, public storage: Storage,
-              public afAuth: AngularFireAuth, public profileService: ProfileService) {
-      this.userUid$ = afAuth.user
-          .filter(user => user != null)
-          .map((user: User) => user.uid);
-  }
+    constructor(public cameraService: CameraService, public storage: Storage,
+                public afAuth: AngularFireAuth, public profileService: ProfileService) {
+        this.userUid$ = afAuth.user
+            .filter(user => user != null)
+            .map((user: User) => user.uid);
+    }
 
-  public takeProfilePicture() {
-      this.profilePictureLocation$ = combineLatest(this.userUid$, this.cameraService.takePicture())
-      .map((results: any[]) => {
-        let uid = results[0];
-        let fileLocation = results[1];
+    public takeProfilePicture() {
+        let picture$ = this.cameraService.takePicture();
+        this.profilePictureLocation$ = Observable.fromPromise(picture$);
 
-        this.profileService.setProfilePicture(uid, fileLocation).subscribe();
+        combineLatest(this.userUid$, picture$)
+            .take(1)
+            .flatMap((results: any[]) => {
+                //results contains the results of the observables combined above
+                // use them to set to profile picture using the profile service.
 
-        return fileLocation;
-      });
-  }
+                let uid = results[0];
+                let fileLocation = results[1];
+
+                return this.profileService.setProfilePicture(uid, fileLocation);
+            })
+            .subscribe();
+    }
+
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
       this.profilePictureLocation$  = this.userUid$
           .flatMap((uid => this.profileService.getProfilePicture(uid)));
   }
 
-  ionViewCanEnter(): Promise<boolean> {
-      return this.afAuth.user
-          .map((user: User) => user != null)
-          .take(1)
-          .toPromise();
+    ionViewCanEnter(): Promise<boolean> {
+        return this.afAuth.user
+            .map((user: User) => user != null)
+            .take(1)
+            .toPromise();
 
-  }
+    }
 }
