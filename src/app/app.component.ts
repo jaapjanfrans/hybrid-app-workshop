@@ -35,17 +35,11 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(()  => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
       this.user.subscribe(user => {
-        if(user == null) {
-          this.nav.setRoot(LoginPage);
-        } else {
-          this.nav.setRoot(ProfilePage);
-        }
+      // insert code here to switch rootpage based on if a user is logged in or not (user is null if not signed in)
       });
     });
   }
