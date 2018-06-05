@@ -11,6 +11,7 @@ import {Reference, UploadTaskSnapshot} from "angularfire2/storage/interfaces";
 import { finalize } from 'rxjs/operators';
 import "rxjs-compat/add/operator/last";
 import {FileService} from "../../providers/file-service/file.service";
+import "rxjs-compat/add/operator/delay";
 
 
 /**
@@ -91,6 +92,7 @@ export class PhotostreamPage {
     public takePicture() {
         Observable.fromPromise(this.cameraService.takePicture())
             .flatMap((fileLocation: string) => this.photostreamService.uploadPicture(fileLocation))
+            .delay(1000)
             .subscribe(() => {
                 this.init(false);
             });
