@@ -42,22 +42,18 @@ export class ProfilePage {
 
         combineLatest(this.userUid$, picture$)
             .take(1)
-            .flatMap((results: any[]) => {
-                //results contains the results of the observables combined above
-                // use them to set to profile picture using the profile service.
-
-                let uid = results[0];
-                let fileLocation = results[1];
-
-                return this.profileService.setProfilePicture(uid, fileLocation);
-            })
+            // .flatMap((results: any[]) => {
+            //     //results contains the results of the observables combined above
+            //     // use them to set to profile picture using the profile service.
+            //
+            //
+            // })
             .subscribe();
     }
 
 
     ionViewDidEnter() {
-      this.profilePictureLocation$  = this.userUid$
-          .flatMap((uid => this.profileService.getProfilePicture(uid)));
+
   }
 
     ionViewCanEnter(): Promise<boolean> {
