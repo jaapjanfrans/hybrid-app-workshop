@@ -11,17 +11,18 @@ There are a few new services added to the project in this branch. We will use on
 
 the `FileService` will retrieve and store files both locally and in the firebase storage. The device's own storage will serve as a cache for files so we only download a file once.
 
-Study the `takeProfilePicture` method in `ProfilePage`. It now takes the latest userid and the camera picture location and uses them to save the picture with the profilePage.
+Study the `takeProfilePicture` method in `ProfilePage`. It now takes the userid and the camera picture location and uses them to save the picture with the profilePage.
 
-Adjust `takeProfilePicture` to save the pictureprofile using the `ProfileService`.
-Adjust the `ionViewDidload` to get the profilepicture from the `ProfileService`.
+Adjust `takeProfilePicture`, uncomment the code block and save the pictureprofile using the `ProfileService`.
 
-### 5.1 Create a photostream page
+Fill in the `ionViewDidEnter` meter to get the profilepicture from the `ProfileService` using the `userUid$` observable (hint: use a `flatMap` operator on the `userUid$` observable.
+
+### 5.2 Adding functionality to the photostreampage
+The `PhotostreamPage` uses a service to get photostream images and displaying them in a list toghether with the profile picture of the person who took the picture. 
+
+Add these things to the page
+* an ionic FAB button with an ionic icon of a camera in the bottom right corner that will call `takePicture` of the profilepage class.
+* An infinite scroll component that has an attribute `#infiniteScroll` and calls `loadMore()` on `ionInfinite`
+* a refresher component that has an attribute `#refresher` and calls `doRefresh` on `ionRefresh` event.
 Create a page that will hold the photostream items and use our (to be created) photostream service to retrieve photo's.
 
-### 5.2 Create a photostream-item component to display an image
-Create a photostream-item component and add an `@input()` member variable `imageLocation` of type `string` and an `@input()` variable `author` of type `string`.
-
-### 5.3 create a FAB for taking a picture
-
-### 5.4 create a PhotostreamService
