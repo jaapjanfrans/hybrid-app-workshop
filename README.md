@@ -26,3 +26,8 @@ Add these things to the page
 * a refresher component that has an attribute `#refresher` and calls `doRefresh` on `ionRefresh` event.
 Create a page that will hold the photostream items and use our (to be created) photostream service to retrieve photo's.
 
+### 5.3 play around with photostream
+* open the photostream
+* take pictures with the fab button 
+* refresh using pull down to refresh
+* scroll down, see if infinite scroll works (will require + 10 photos in the stream)
