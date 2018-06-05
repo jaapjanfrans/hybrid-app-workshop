@@ -9,6 +9,7 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {User} from "firebase";
 import {Observable} from "rxjs/Observable";
 import {PhotostreamPage} from "../pages/photostream/photostream";
+import {PushService} from "../providers/push-service/push-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -22,7 +23,8 @@ export class MyApp {
 
   user: Observable<User>;
 
-  constructor(private afAuth: AngularFireAuth, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public afAuth: AngularFireAuth, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+              public pushService: PushService) {
     this.user = this.afAuth.user;
 
     this.initializeApp();
@@ -49,6 +51,8 @@ export class MyApp {
           this.nav.setRoot(ProfilePage);
         }
       });
+
+      this.pushService.init();
     });
   }
 

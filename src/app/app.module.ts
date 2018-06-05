@@ -12,6 +12,7 @@ import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { CameraService } from '../providers/camera-service/camera-service';
 import {IonicStorageModule} from "@ionic/storage";
+import { Push } from '@ionic-native/push';
 
 import { AngularFireModule } from 'angularfire2';
 import {AngularFireAuthModule} from "angularfire2/auth";
@@ -25,6 +26,7 @@ import {AngularFirestoreModule} from "angularfire2/firestore";
 import {FileService} from "../providers/file-service/file.service";
 import {PhotostreamPageModule} from "../pages/photostream/photostream.module";
 import {PhotostreamService} from "../providers/photostream-service/photostream-service";
+import { PushService } from '../providers/push-service/push-service';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import {PhotostreamService} from "../providers/photostream-service/photostream-s
     GooglePlus,
     Camera,
     File,
+    Push,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -59,7 +62,8 @@ import {PhotostreamService} from "../providers/photostream-service/photostream-s
     FileService,
     CameraService,
     PhotostreamService,
-    ProfileService
+    ProfileService,
+    PushService
   ]
 })
 export class AppModule {}
