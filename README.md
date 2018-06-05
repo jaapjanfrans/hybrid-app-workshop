@@ -2,14 +2,19 @@
 ## 4. Authentication using a MBAAS (firebase)
 ### Goals
 
-* installing Angularfire in our app
-* connecting to our backend
+* connecting to our Firebase backend
 * Hooking up authentication
 
-### 4.1 Installing Angularfire
-AngularFire is an angular implementation of the Firebase API. Very useful for us since our app is angular and we
-want to utilize firebase services.
+### 4.1 When a user logs in, direct to correct page
+Put the given files (via slack) in place: 
+* the debug keystore
+* the firestore config file
+
+run `npm install`, `ionic cordova platform remove android` and `ionic cordova platform add android`.
+
+Open up `app.component.ts` , notice the AngularFireAuth service that is injected in the constructor. complete the code in `initializeApp()` to redirect user based in logged in state.
 
 
-Look up angularfire on github and install it (search for the line containing the `npm` install line, which will install both firebase and angularfire packages).
-
+### 4.2 Add a log out button to the sidemenu
+open up `app.html`, add a button that only shows when a user is logged in and that triggers the method `logOut()` 
+N.B. add the `| async` pipe to the button's if statement as the `user` is an async, observable member variable.
