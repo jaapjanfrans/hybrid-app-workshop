@@ -36,8 +36,6 @@ export class PhotostreamPage {
     @ViewChild('refresher', {read: Refresher})
     public refresher: Refresher;
 
-    public isRefreshing: boolean;
-
     constructor(public photostreamService: PhotostreamService,
                 public fileService: FileService,
                 public afAuth: AngularFireAuth, public cameraService: CameraService) {}
@@ -62,18 +60,15 @@ export class PhotostreamPage {
         this.items$.subscribe((items) => {
             this.infiniteScroll.complete();
             this.refresher.complete();
-            this.isRefreshing = false;
         });
 
         this.photostreamService.done.subscribe((done: boolean) => {
             this.infiniteScroll.complete();
             this.refresher.complete();
-            this.isRefreshing = false;
         });
     }
     
     public doRefresh() {
-        this.isRefreshing = true;
         this.init();
     }
 

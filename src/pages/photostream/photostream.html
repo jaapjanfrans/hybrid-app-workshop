@@ -13,17 +13,14 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-refresher #refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+
+  <!-- add refresher (pull down to refresh component) here -->
 
   <ion-list>
-    <!--<div >-->
           <photostream-item *ngFor="let item of   items$ | async"  [imageRef]="item.imageRef" [profileUid]="item.uid"></photostream-item>
-      <!--</ion-item>-->
-    <!--</div>-->
-
   </ion-list>
+
+  <!-- add infinite scroll component here -->
 
   <ion-infinite-scroll #infiniteScroll (ionInfinite)="loadMore()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
