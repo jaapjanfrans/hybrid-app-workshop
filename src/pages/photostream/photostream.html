@@ -13,16 +13,25 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
+  <ion-refresher #refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <ion-list>
-    <photostream-item *ngFor="let item of items$ | async" [image]="item"></photostream-item>
+    <!--<div >-->
+          <photostream-item *ngFor="let item of   items$ | async"  [imageRef]="item.imageRef" [profileUid]="item.uid"></photostream-item>
+      <!--</ion-item>-->
+    <!--</div>-->
+
   </ion-list>
 
-  <ion-infinite-scroll (ionInfinite)="loadMore()">
+  <ion-infinite-scroll #infiniteScroll (ionInfinite)="loadMore()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
   <ion-fab bottom right>
-    <button ion-fab icon-only><ion-icon>camera</ion-icon></button>
+    <button ion-fab icon-only (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>

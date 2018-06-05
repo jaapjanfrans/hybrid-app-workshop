@@ -8,87 +8,108 @@ import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/take';
 import {PhotostreamImage} from "../../models/photostream-image";
 import {AngularFireAuth} from "angularfire2/auth";
-import {User} from "firebase";
 import {FileService} from "../file-service/file.service";
 import { UUID } from 'angular2-uuid';
-import {AngularFireUploadTask} from "angularfire2/storage/task";
+import {Reference, UploadTaskSnapshot} from "angularfire2/storage/interfaces";
+import { combineLatest } from 'rxjs'
+import {default as firebase, User} from "firebase";
+import FieldValue = firebase.firestore.FieldValue;
+import {AngularFireUploadTask} from "angularfire2/storage";
 
 /**
- * Inspired by https://angularfirebase.com/lessons/infinite-scroll-firestore-angular/
+ * pagination Inspired by https://angularfirebase.com/lessons/infinite-scroll-firestore-angular/
  */
 @Injectable()
 export class PhotostreamService {
+
+    private uid$: Observable<string>;
 
     // Source data
     private _done = new BehaviorSubject(false);
     private _loading = new BehaviorSubject(false);
     private _data = new BehaviorSubject<PhotostreamImage[]>([]);
 
-    private query: QueryConfig;
+    private query: QueryConfig = {
+        path: 'photostream',
+        field: 'timestamp',
+        limit: 10
+     };
 
     // Observable data
     data: Observable<PhotostreamImage[]>;
-    done: Observable<boolean> = this._done.asObservable();
-    loading: Observable<boolean> = this._loading.asObservable();
+    done: Observable<boolean>;
+    loading: Observable<boolean>;
 
+    first: AngularFirestoreCollection ;
 
     constructor(public afs: AngularFirestore, public afAuth: AngularFireAuth,
                 public fileService: FileService) {
-        this.query = {
-            path: 'photostream',
-            field: 'dateCreated',
-            limit: 10,
-            reverse: false,
-            prepend: true
-        };
+        this.uid$ = this.afAuth.user
+            .filter((user: User) => user != null)
+            .map((user: User) => user.uid);
+    }
 
-        const first = this.afs.collection(this.query.path, ref => {
+    public init(reloadData: boolean = true) {
+
+        this._done = new BehaviorSubject(false);
+        this._loading = new BehaviorSubject(false);
+
+        if (reloadData)
+        {
+            this._data = new BehaviorSubject<PhotostreamImage[]>([]);
+            this.data = this._data.asObservable()
+                .scan((acc, val) => {
+                    return val.concat(acc);
+                });
+        }
+
+        this.done = this._done.asObservable();
+        this.loading = this._loading.asObservable();
+
+
+        this.first = this.afs.collection(this.query.path, ref => {
             return ref
-                .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+                .orderBy(this.query.field, 'desc')
                 .limit(this.query.limit)
         });
 
-        // Create the observable array for consumption in components
-        this.data = this._data.asObservable()
-            .scan( (acc, val) => {
-                return this.query.prepend ? val.concat(acc) : acc.concat(val)
-            })
-
-        // start getting stuff when a user is signed in
-        afAuth.user
-            .filter((user: User) => user != null)
-            .do(() => this.mapAndUpdate(first))
-            .subscribe();
+        this.mapAndUpdate(this.first);
     }
 
-    public uploadPicture(fileLocation: string): Observable<AngularFireUploadTask> {
+    public uploadPicture(fileLocation: string): Observable<any> {
         let uuid = UUID.UUID();
         let storageReference = `/photostream/${uuid}`;
 
-        return this.fileService.set(storageReference, fileLocation);
+        return combineLatest(this.uid$, this.fileService.set(storageReference, fileLocation))
+            .flatMap((results: any[]) => {
+                let uid = results[0];
+                let uploadTask: AngularFireUploadTask = results[1];
+
+                 return uploadTask.snapshotChanges()
+                    .map((uploadSnapshot: UploadTaskSnapshot) => uploadSnapshot.ref)
+                    .last()
+                    .map((reference: Reference) => {
+                       return this.afs.collection('photostream')
+                            .doc(uuid)
+                            .set({
+                                uid:uid,
+                                imageRef: reference.fullPath,
+                                timestamp: Date.now(),
+                            })
+                    });
+            });
     }
 
     // Retrieves additional data from firestore
     public more() {
-        const cursor = this.getCursor();
-
         const more = this.afs.collection(this.query.path, ref => {
             return ref
-                .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+                .orderBy(this.query.field, 'desc')
                 .limit(this.query.limit)
-                .startAfter(cursor)
+                .startAfter(this._data.value[this._data.value.length - 1].doc)
         });
+
         this.mapAndUpdate(more)
-    }
-
-
-    // Determines the doc snapshot to paginate query
-    private getCursor() {
-        const current = this._data.value;
-        if (current.length) {
-            return this.query.prepend ? current[0].doc : current[current.length - 1].doc
-        }
-        return null
     }
 
 
@@ -108,9 +129,6 @@ export class PhotostreamService {
                     const doc = snap.payload.doc;
                     return { ...data, doc }
                 });
-
-                // If prepending, reverse the batch order
-                values = this.query.prepend ? values.reverse() : values;
 
                 // update source with new values, done loading
                 this._data.next(values);
