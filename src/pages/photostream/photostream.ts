@@ -11,6 +11,7 @@ import {Reference, UploadTaskSnapshot} from "angularfire2/storage/interfaces";
 import { finalize } from 'rxjs/operators';
 import "rxjs-compat/add/operator/last";
 import {FileService} from "../../providers/file-service/file.service";
+import "rxjs-compat/add/operator/delay";
 
 
 /**
@@ -22,8 +23,8 @@ import {FileService} from "../../providers/file-service/file.service";
 
 @IonicPage()
 @Component({
-  selector: 'page-photostream',
-  templateUrl: 'photostream.html',
+    selector: 'page-photostream',
+    templateUrl: 'photostream.html',
 })
 export class PhotostreamPage {
 
@@ -34,8 +35,6 @@ export class PhotostreamPage {
 
     @ViewChild('refresher', {read: Refresher})
     public refresher: Refresher;
-
-    public isRefreshing: boolean;
 
     constructor(public photostreamService: PhotostreamService,
                 public fileService: FileService,
@@ -61,18 +60,15 @@ export class PhotostreamPage {
         this.items$.subscribe((items) => {
             this.infiniteScroll.complete();
             this.refresher.complete();
-            this.isRefreshing = false;
         });
 
         this.photostreamService.done.subscribe((done: boolean) => {
             this.infiniteScroll.complete();
             this.refresher.complete();
-            this.isRefreshing = false;
         });
     }
-    
+
     public doRefresh() {
-        this.isRefreshing = true;
         this.init();
     }
 
@@ -80,17 +76,18 @@ export class PhotostreamPage {
         this.photostreamService.done
             .take(1)
             .subscribe((isDone: boolean) => {
-               if(!isDone){
-                   this.photostreamService.more();
-               } else {
-                   this.infiniteScroll.complete();
-               }
+                if(!isDone){
+                    this.photostreamService.more();
+                } else {
+                    this.infiniteScroll.complete();
+                }
             });
     }
 
     public takePicture() {
         Observable.fromPromise(this.cameraService.takePicture())
             .flatMap((fileLocation: string) => this.photostreamService.uploadPicture(fileLocation))
+            .delay(1000)
             .subscribe(() => {
                 this.init(false);
             });

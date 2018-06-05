@@ -18,11 +18,7 @@
   </ion-refresher>
 
   <ion-list>
-    <!--<div >-->
           <photostream-item *ngFor="let item of   items$ | async"  [imageRef]="item.imageRef" [profileUid]="item.uid"></photostream-item>
-      <!--</ion-item>-->
-    <!--</div>-->
-
   </ion-list>
 
   <ion-infinite-scroll #infiniteScroll (ionInfinite)="loadMore()">
