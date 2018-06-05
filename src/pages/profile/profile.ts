@@ -21,16 +21,16 @@ import {ProfileService} from "../../providers/profile-service/profile-service";
 
 @IonicPage()
 @Component({
-  selector: 'page-profile',
-  templateUrl: 'profile.html',
+    selector: 'page-profile',
+    templateUrl: 'profile.html',
 })
 export class ProfilePage {
 
     userUid$: Observable<string>;
-    profilePictureLocation$: Promise<string>;
+    profilePictureLocation$: Observable<string>;
 
     constructor(public cameraService: CameraService, public storage: Storage,
-                    public afAuth: AngularFireAuth, public profileService: ProfileService) {
+                public afAuth: AngularFireAuth, public profileService: ProfileService) {
         this.userUid$ = afAuth.user
             .filter(user => user != null)
             .map((user: User) => user.uid);
@@ -38,25 +38,33 @@ export class ProfilePage {
 
     public takeProfilePicture() {
         let picture$ = this.cameraService.takePicture();
-        this.profilePictureLocation$ = picture$;
+        this.profilePictureLocation$ = Observable.fromPromise(picture$);
 
         combineLatest(this.userUid$, picture$)
+            .take(1)
             .flatMap((results: any[]) => {
-                // save the image with the profileservice
+                //results contains the results of the observables combined above
+                // use them to set to profile picture using the profile service.
+
+                let uid = results[0];
+                let fileLocation = results[1];
+
+                return this.profileService.setProfilePicture(uid, fileLocation);
             })
             .subscribe();
     }
 
 
-  ionViewDidLoad() {
-        // get the picture from profileservice
+    ionViewDidEnter() {
+      this.profilePictureLocation$  = this.userUid$
+          .flatMap((uid => this.profileService.getProfilePicture(uid)));
   }
 
     ionViewCanEnter(): Promise<boolean> {
-      return this.afAuth.user
-          .map((user: User) => user != null)
-          .take(1)
-          .toPromise();
+        return this.afAuth.user
+            .map((user: User) => user != null)
+            .take(1)
+            .toPromise();
 
-  }
+    }
 }

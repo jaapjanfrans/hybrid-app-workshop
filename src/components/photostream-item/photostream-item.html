@@ -1,0 +1,6 @@
+<ion-item no-lines *ngIf="localImageLocation$ | async as localImageLocation">
+    <img src="{{localImageLocation}}"/>
+    <ion-avatar item-end *ngIf="profileImageLocation$ | async as profileImageLocation">
+        <img src="{{profileImageLocation }}"/>
+    </ion-avatar>
+</ion-item>
