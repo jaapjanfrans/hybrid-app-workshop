@@ -12,7 +12,7 @@ Set the profile page as the default entry page of the app.
 Run the app in the browser. notice the profilepage has no menuicon. Add it. Als change the title in the header to `My Profile'
 
 ### 2.2 Adding a profile picture 
-_you can use the files in the root directory `excersice-2-files` to fill in the html and scss files_
+_you can use the files in the root directory `excersice-2-files` in this branch to fill in the html and scss files_
 
 Create a component called `ProfilePicture`. Wire the new `ComponentsModule` in `app.module.ts`. 
 
