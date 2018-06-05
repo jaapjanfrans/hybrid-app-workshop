@@ -1,15 +1,11 @@
 # Workshop Hybrid App Development
-## 4. Authentication using a MBAAS (firebase)
-### Goals
+## 4. Authentication using a MBAAS (firebase) - solution
 
-* installing Angularfire in our app
-* connecting to our backend
-* Hooking up authentication
+### 4.1 When a user logs in, direct to correct page
+see `app.component.ts` for code.
 
-### 4.1 Installing Angularfire
-AngularFire is an angular implementation of the Firebase API. Very useful for us since our app is angular and we
-want to utilize firebase services.
+make sure the files are in place for firebase and the debug keystore!
 
 
-Look up angularfire on github and install it.
-
+### 4.2 Add a log out button to the sidemenu
+see `app.html` for code.
